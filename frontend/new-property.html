@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Νέο Ακίνητο | EstateDesk</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="app app-properties">
+		<header class="topbar">
+			<div class="topbar-brand"><img class="brand-mark" src="images/estatedesk-logo.png" alt="EstateDesk logo"><span class="brand-name">EstateDesk</span></div>
+			<form class="topbar-search" action="#" method="get" onsubmit="return false;"><input type="search" placeholder="Αναζήτηση ακινήτου..." aria-label="Αναζήτηση ακινήτου"><button type="submit">Εύρεση</button></form>
+			<div class="topbar-user"><span class="user-label">Portfolio Demo</span></div>
+		</header>
+
+		<aside class="sidebar">
+			<p class="sidebar-title">Κύριο Μενού</p>
+			<nav class="sidebar-nav">
+				<a href="index.html" class="nav-item">Αρχική</a>
+				<div class="nav-group open">
+					<button type="button" class="nav-item nav-toggle is-active" aria-expanded="true" aria-controls="properties-submenu"><span class="nav-toggle-label">Ακίνητα</span><span class="nav-chevron" aria-hidden="true"></span></button>
+					<div id="properties-submenu" class="nav-submenu">
+						<a href="new-property.html" class="nav-subitem active">Νέο Ακίνητο</a>
+						<a href="properties.html" class="nav-subitem">Όλα τα Ακίνητα</a>
+						<a href="advanced-search.html" class="nav-subitem">Σύνθετη Αναζήτηση</a>
+						<a href="#" class="nav-subitem">Αναζήτηση σε Χάρτη</a>
+						<a href="#" class="nav-subitem">Ιστορικό αλλαγών</a>
+					</div>
+				</div>
+				<a href="contacts.html" class="nav-item">Επαφές</a>
+				<a href="#" class="nav-item">Σχετικά</a>
+			</nav>
+		</aside>
+
+		<main class="main">
+			<section class="page-header">
+				<p class="breadcrumb" id="new-property-breadcrumb">CRM / Ακίνητα / Νέο Ακίνητο</p>
+				<h1 id="new-property-heading">Νέο Ακίνητο</h1>
+				<p class="page-subtitle" id="new-property-subtitle">Παρακαλούμε συμπληρώστε τις παρακάτω πληροφορίες για να δημοσιεύσετε κάποιο ακίνητο.</p>
+				<p class="location-geocode-error" id="edit-load-message" role="alert" hidden></p>
+			</section>
+
+			<form class="property-form" novalidate>
+				<section class="property-form-card" id="property-summary-section" aria-labelledby="property-details-title">
+					<div class="section-heading"><h2 id="property-details-title">Αναλυτικά στοιχεία ακινήτου</h2></div>
+					<div class="property-form-grid property-form-grid--three">
+						<div class="form-field"><label for="manager">Διαχειριστής</label><select id="manager" data-options="managers" data-default="Τσιτσές Πέτρος"></select></div>
+						<div class="form-field"><label for="owner">Ιδιοκτήτης <button class="inline-action" type="button" id="open-contact-modal">+ Δημιουργία νέας επαφής</button></label><select id="owner" data-options="owners"></select></div>
+						<div class="form-field"><label for="next-update">Επόμενη Επικαιροποίηση</label><input id="next-update" type="date" value="2026-10-27"></div>
+						<div class="form-field"><label for="listing-type">Τύπος αγγελίας</label><select id="listing-type" data-options="listingTypes"></select></div>
+						<div class="form-field"><label for="property-category">Κατηγορία ακινήτου</label><select id="property-category" data-options="categories"></select></div>
+						<div class="form-field"><label for="property-subcategory">Υποκατηγορία ακινήτου</label><select id="property-subcategory" data-options="subcategories"></select></div>
+						<div class="form-field"><label for="area">Εμβαδό</label><input id="area" type="number" min="0" step="0.01" placeholder="Εισάγετε το εμβαδό"></div>
+						<div class="form-field"><label for="price">Τιμή</label><input id="price" type="number" min="0" step="0.01" placeholder="Εισάγετε την τιμή"></div>
+						<div class="form-field"><label for="minimum-price">Κατώτερο όριο τιμής</label><input id="minimum-price" type="number" min="0" step="0.01"></div>
+						<div class="form-field"><label for="tax-value">Αντικειμενική αξία</label><input id="tax-value" type="number" min="0" step="0.01"></div>
+						<div class="form-field"><label for="vat">Φ.Π.Α.</label><select id="vat" data-options="yesNo" data-default="Όχι"></select></div>
+						<div class="form-field"><label for="assignment">Ανάθεση</label><select id="assignment" data-options="assignments"></select></div>
+						<div class="form-field"><label for="available-from">Διαθέσιμο από</label><input id="available-from" type="date" value="2026-09-07"></div>
+						<div class="form-field"><label for="keys">Κλειδιά</label><select id="keys" data-options="yesNo"></select></div>
+						<div class="form-field"><label for="fee">Αμοιβή</label><input id="fee" type="number" min="0" step="0.01"></div>
+						<div class="form-field"><label for="rented">Μισθωμένο</label><select id="rented" data-options="yesNo"></select></div>
+						<div class="form-field"><span class="form-label">Αξιολόγηση</span><div class="rating" role="radiogroup" aria-label="Αξιολόγηση"><button type="button" data-rating="1" aria-label="1 στα 5" aria-checked="true">★</button><button type="button" data-rating="2" aria-label="2 στα 5" aria-checked="false">★</button><button type="button" data-rating="3" aria-label="3 στα 5" aria-checked="false">★</button><button type="button" data-rating="4" aria-label="4 στα 5" aria-checked="false">★</button><button type="button" data-rating="5" aria-label="5 στα 5" aria-checked="false">★</button></div><input id="rating" type="hidden" value="1"></div>
+					</div>
+				</section>
+
+				<section class="property-form-card property-details-card" id="property-tabs-section" aria-label="Βασικά στοιχεία" hidden>
+					<div class="property-tabs" role="tablist" aria-label="Ενότητες ακινήτου"><button class="property-tab active" type="button" role="tab" aria-selected="true" data-tab-target="basic">Βασικά</button><button class="property-tab" type="button" role="tab" aria-selected="false" data-tab-target="additional">Επιπλέον</button><button class="property-tab" type="button" role="tab" aria-selected="false" data-tab-target="details">Λεπτομέρειες</button></div>
+					<div class="tab-pane active" data-tab-pane="basic">
+						<div id="basic-fields-housing">
+						<div class="property-form-grid property-form-grid--four">
+						<div class="form-field"><label for="bedrooms">Υπνοδωμάτια</label><select id="bedrooms" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="master-bedrooms">Master Υ/Δ</label><select id="master-bedrooms" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="floor">Όροφος</label><select id="floor" data-options="floors"></select></div>
+						<div class="form-field"><label for="year-built">Έτος κατασκευής</label><select id="year-built" data-options="years"></select></div>
+						<div class="form-field"><label for="publication">Δημοσίευση</label><select id="publication" data-options="yesNo" data-default="Ναι"></select></div>
+						<div class="form-field"><label for="living-rooms">Σαλόνια</label><select id="living-rooms" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="kitchens">Κουζίνες</label><select id="kitchens" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="open-plan-rooms">Σαλονοκουζίνες</label><select id="open-plan-rooms" data-options="openPlanRooms"></select></div>
+						<div class="form-field"><label for="bathrooms">Μπάνια</label><select id="bathrooms" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="wc">WC</label><select id="wc" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="frames-label">Κουφώματα</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="frames-panel" aria-labelledby="frames-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="frames-panel" hidden><label><input type="checkbox" name="frames" value="Ξύλινα"> Ξύλινα</label><label><input type="checkbox" name="frames" value="Αλουμινίου"> Αλουμινίου</label><label><input type="checkbox" name="frames" value="Συνθετικά"> Συνθετικά</label><label><input type="checkbox" name="frames" value="Διπλά Τζάμια"> Διπλά Τζάμια</label><label><input type="checkbox" name="frames" value="Τριπλά Τζάμια"> Τριπλά Τζάμια</label></div></div>
+						<div class="form-field"><label for="floor-type">Τύπος δαπέδων</label><select id="floor-type" data-options="floorTypes"></select></div>
+						<div class="form-field"><label for="bedroom-floor-type">Τύπος δαπέδων υπνοδωματίων</label><select id="bedroom-floor-type" data-options="bedroomFloorTypes"></select></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="heating-label">Θέρμανση</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="heating-panel" aria-labelledby="heating-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="heating-panel" hidden><label><input type="checkbox" name="heating-type" value="Ατομική θέρμανση"> Ατομική θέρμανση</label><label><input type="checkbox" name="heating-type" value="Αυτόνομη θέρμανση"> Αυτόνομη θέρμανση</label><label><input type="checkbox" name="heating-type" value="Κεντρική θέρμανση"> Κεντρική θέρμανση</label><label><input type="checkbox" name="heating-type" value="Χωρίς θέρμανση"> Χωρίς θέρμανση</label><div class="checkbox-separator" aria-hidden="true"></div><label><input type="checkbox" name="heating-source" value="Πετρέλαιο"> Πετρέλαιο</label><label><input type="checkbox" name="heating-source" value="Φυσικό αέριο"> Φυσικό αέριο</label><label><input type="checkbox" name="heating-source" value="Υγραέριο"> Υγραέριο</label><label><input type="checkbox" name="heating-source" value="Ρεύμα"> Ρεύμα</label><label><input type="checkbox" name="heating-source" value="Σόμπα"> Σόμπα</label><label><input type="checkbox" name="heating-source" value="Θερμοσυσσωρευτής"> Θερμοσυσσωρευτής</label><label><input type="checkbox" name="heating-source" value="Θερμοπομπός"> Θερμοπομπός</label><label><input type="checkbox" name="heating-source" value="Pellet"> Pellet</label><label><input type="checkbox" name="heating-source" value="Υπέρυθρες"> Υπέρυθρες</label><label><input type="checkbox" name="heating-source" value="Fan coil"> Fan coil</label><label><input type="checkbox" name="heating-source" value="Ξύλα"> Ξύλα</label><label><input type="checkbox" name="heating-source" value="Τηλεθέρμανση"> Τηλεθέρμανση</label><label><input type="checkbox" name="heating-source" value="Γεωθερμική ενέργεια"> Γεωθερμική ενέργεια</label><label><input type="checkbox" name="heating-source" value="Αντλία θερμότητας"> Αντλία θερμότητας</label><label><input type="checkbox" name="heating-source" value="Κλιματιστικό"> Κλιματιστικό</label><label><input type="checkbox" name="heating-source" value="Ενδοδαπέδια θέρμανση"> Ενδοδαπέδια θέρμανση</label><label><input type="checkbox" name="heating-source" value="Τζάκι"> Τζάκι</label></div></div>
+						<div class="form-field conditional-field" id="investment-field" hidden><label for="investment">Επενδυτικό</label><select id="investment" data-options="investment"></select></div>
+						<div class="form-field conditional-field" id="rental-price-field" hidden><label for="rental-price">Τιμή ενοικίασης <span class="input-unit">€ / μήνα</span></label><input id="rental-price" type="number" min="0" step="0.01"></div>
+						<div class="form-field"><label for="energy-class">Ενεργειακή κλάση</label><select id="energy-class" data-options="energyClasses"></select></div>
+						<div class="form-field"><label for="door">Πόρτα</label><select id="door" data-options="doors"></select></div>
+						<div class="form-field"><label for="orientation">Προσανατολισμός</label><select id="orientation" data-options="orientations"></select></div>
+						<div class="form-field"><label for="storage">Αποθήκη</label><select id="storage" data-options="storage"></select></div>
+						<div class="form-field conditional-field" id="storage-area-field" hidden><label for="storage-area">Εμβαδόν αποθήκης</label><input id="storage-area" type="number" min="0" step="0.01"></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="placement-label">Χωροθέτηση</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="placement-panel" aria-labelledby="placement-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="placement-panel" hidden><label><input type="checkbox" name="placement" value="Γωνιακό"> Γωνιακό</label><label><input type="checkbox" name="placement" value="Πρόσοψης"> Πρόσοψης</label><label><input type="checkbox" name="placement" value="Εσωτερικό"> Εσωτερικό</label><label><input type="checkbox" name="placement" value="Πλαϊνό"> Πλαϊνό</label><label><input type="checkbox" name="placement" value="Διαμπερές"> Διαμπερές</label><label><input type="checkbox" name="placement" value="Φωτεινό"> Φωτεινό</label><label><input type="checkbox" name="placement" value="Τριών Όψεων"> Τριών Όψεων</label><label><input type="checkbox" name="placement" value="Τεσσάρων Όψεων"> Τεσσάρων Όψεων</label></div></div>
+						<div class="form-field"><label for="view">Θέα</label><select id="view" data-options="views"></select></div>
+						<div class="form-field"><label for="renovated">Ανακαινισμένο</label><select id="renovated" data-options="renovated"></select></div>
+						<div class="form-field conditional-field" id="renovation-year-field" hidden><label for="renovation-year">Έτος ανακαίνισης</label><select id="renovation-year" data-options="years"></select></div>
+						<div class="form-field"><label for="needs-renovation">Χρήζει ανακαίνισης</label><select id="needs-renovation" data-options="yesNo"></select></div>
+						<div class="form-field"><label for="parking-type">Θέσεις στάθμευσης</label><div class="compound-selects"><select id="parking-type" data-options="parkingTypes"></select><select id="parking-count" data-options="numbers0to20" data-default="0" aria-label="Αριθμός θέσεων στάθμευσης"></select></div></div>
+						<div class="form-field"><label for="common-expenses">Μέσα μηνιαία κοινόχρηστα</label><input id="common-expenses" type="number" min="0" step="0.01"></div>
+						<div class="form-field"><label for="extra-benefits">Επιπλέον παροχές ακινήτου</label><select id="extra-benefits" data-options="extraBenefits"></select></div>
+						</div>
+						</div>
+						<div id="basic-fields-commercial" hidden>
+						<div class="property-form-grid property-form-grid--four">
+						<div class="form-field"><label for="commercial-rooms">Χώροι</label><select id="commercial-rooms" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="commercial-floor">Όροφος</label><select id="commercial-floor" data-options="commercialFloors"></select></div>
+						<div class="form-field"><label for="commercial-year-built">Έτος κατασκευής</label><select id="commercial-year-built" data-options="years"></select></div>
+						<div class="form-field"><label for="commercial-publication">Δημοσίευση</label><select id="commercial-publication" data-options="yesNo" data-default="Ναι"></select></div>
+						<div class="form-field"><label for="commercial-kitchens">Κουζίνες</label><select id="commercial-kitchens" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="commercial-bathrooms">Μπάνια</label><select id="commercial-bathrooms" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field"><label for="commercial-wc">WC</label><select id="commercial-wc" data-options="numbers0to20" data-default="0"></select></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="commercial-frames-label">Κουφώματα</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="commercial-frames-panel" aria-labelledby="commercial-frames-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="commercial-frames-panel" hidden><label><input type="checkbox" name="commercial-frames" value="Ξύλινα"> Ξύλινα</label><label><input type="checkbox" name="commercial-frames" value="Αλουμινίου"> Αλουμινίου</label><label><input type="checkbox" name="commercial-frames" value="Συνθετικά"> Συνθετικά</label><label><input type="checkbox" name="commercial-frames" value="Διπλά Τζάμια"> Διπλά Τζάμια</label><label><input type="checkbox" name="commercial-frames" value="Τριπλά Τζάμια"> Τριπλά Τζάμια</label></div></div>
+						<div class="form-field"><label for="commercial-floor-type">Τύπος δαπέδων</label><select id="commercial-floor-type" data-options="floorTypes"></select></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="commercial-heating-label">Θέρμανση</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="commercial-heating-panel" aria-labelledby="commercial-heating-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="commercial-heating-panel" hidden><label><input type="checkbox" name="commercial-heating-type" value="Ατομική θέρμανση"> Ατομική θέρμανση</label><label><input type="checkbox" name="commercial-heating-type" value="Αυτόνομη θέρμανση"> Αυτόνομη θέρμανση</label><label><input type="checkbox" name="commercial-heating-type" value="Κεντρική θέρμανση"> Κεντρική θέρμανση</label><label><input type="checkbox" name="commercial-heating-type" value="Χωρίς θέρμανση"> Χωρίς θέρμανση</label><div class="checkbox-separator" aria-hidden="true"></div><label><input type="checkbox" name="commercial-heating-source" value="Πετρέλαιο"> Πετρέλαιο</label><label><input type="checkbox" name="commercial-heating-source" value="Φυσικό αέριο"> Φυσικό αέριο</label><label><input type="checkbox" name="commercial-heating-source" value="Υγραέριο"> Υγραέριο</label><label><input type="checkbox" name="commercial-heating-source" value="Ρεύμα"> Ρεύμα</label><label><input type="checkbox" name="commercial-heating-source" value="Σόμπα"> Σόμπα</label><label><input type="checkbox" name="commercial-heating-source" value="Θερμοσυσσωρευτής"> Θερμοσυσσωρευτής</label><label><input type="checkbox" name="commercial-heating-source" value="Θερμοπομπός"> Θερμοπομπός</label><label><input type="checkbox" name="commercial-heating-source" value="Pellet"> Pellet</label><label><input type="checkbox" name="commercial-heating-source" value="Υπέρυθρες"> Υπέρυθρες</label><label><input type="checkbox" name="commercial-heating-source" value="Fan coil"> Fan coil</label><label><input type="checkbox" name="commercial-heating-source" value="Ξύλα"> Ξύλα</label><label><input type="checkbox" name="commercial-heating-source" value="Τηλεθέρμανση"> Τηλεθέρμανση</label><label><input type="checkbox" name="commercial-heating-source" value="Γεωθερμική ενέργεια"> Γεωθερμική ενέργεια</label><label><input type="checkbox" name="commercial-heating-source" value="Αντλία θερμότητας"> Αντλία θερμότητας</label><label><input type="checkbox" name="commercial-heating-source" value="Κλιματιστικό"> Κλιματιστικό</label><label><input type="checkbox" name="commercial-heating-source" value="Ενδοδαπέδια θέρμανση"> Ενδοδαπέδια θέρμανση</label><label><input type="checkbox" name="commercial-heating-source" value="Τζάκι"> Τζάκι</label></div></div>
+						<div class="form-field"><label for="commercial-investment">Επενδυτικό</label><select id="commercial-investment" data-options="investment"></select></div>
+						<div class="form-field"><label for="commercial-energy-class">Ενεργειακή κλάση</label><select id="commercial-energy-class" data-options="energyClasses"></select></div>
+						<div class="form-field"><label for="commercial-door">Πόρτα</label><select id="commercial-door" data-options="doors"></select></div>
+						<div class="form-field"><label for="commercial-orientation">Προσανατολισμός</label><select id="commercial-orientation" data-options="orientations"></select></div>
+						<div class="form-field"><label for="commercial-storage">Αποθήκη</label><select id="commercial-storage" data-options="storage"></select></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="commercial-placement-label">Χωροθέτηση</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="commercial-placement-panel" aria-labelledby="commercial-placement-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="commercial-placement-panel" hidden><label><input type="checkbox" name="commercial-placement" value="Γωνιακό"> Γωνιακό</label><label><input type="checkbox" name="commercial-placement" value="Πρόσοψης"> Πρόσοψης</label><label><input type="checkbox" name="commercial-placement" value="Εσωτερικό"> Εσωτερικό</label><label><input type="checkbox" name="commercial-placement" value="Πλαϊνό"> Πλαϊνό</label><label><input type="checkbox" name="commercial-placement" value="Διαμπερές"> Διαμπερές</label><label><input type="checkbox" name="commercial-placement" value="Φωτεινό"> Φωτεινό</label><label><input type="checkbox" name="commercial-placement" value="Τριών Όψεων"> Τριών Όψεων</label><label><input type="checkbox" name="commercial-placement" value="Τεσσάρων Όψεων"> Τεσσάρων Όψεων</label></div></div>
+						<div class="form-field"><label for="commercial-view">Θέα</label><select id="commercial-view" data-options="views"></select></div>
+						<div class="form-field"><label for="commercial-renovated">Ανακαινισμένο</label><select id="commercial-renovated" data-options="renovated"></select></div>
+						<div class="form-field"><label for="commercial-needs-renovation">Χρήζει ανακαίνισης</label><select id="commercial-needs-renovation" data-options="yesNo"></select></div>
+						<div class="form-field"><label for="commercial-parking-type">Θέσεις στάθμευσης</label><div class="compound-selects"><select id="commercial-parking-type" data-options="parkingTypes"></select><select id="commercial-parking-count" data-options="numbers0to20" data-default="0" aria-label="Αριθμός θέσεων στάθμευσης"></select></div></div>
+						<div class="form-field"><label for="commercial-common-expenses">Μέσα μηνιαία κοινόχρηστα</label><input id="commercial-common-expenses" type="number" min="0" step="0.01"></div>
+						<div class="form-field"><label for="commercial-shop-frontage">Μήκος βιτρίνας</label><input id="commercial-shop-frontage" type="number" min="0" step="0.01"></div>
+						<div class="form-field"><label for="commercial-power">Ρεύμα</label><select id="commercial-power" data-options="powerTypes"></select></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="commercial-extra-benefits-label">Επιπλέον παροχές ακινήτου</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="commercial-extra-benefits-panel" aria-labelledby="commercial-extra-benefits-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="commercial-extra-benefits-panel" hidden><label><input type="checkbox" name="commercial-extra-benefits" value="All Inclusive (Ρεύμα, Νερό, Internet)"> All Inclusive (Ρεύμα, Νερό, Internet)</label><label><input type="checkbox" name="commercial-extra-benefits" value="Θερμομόνωση"> Θερμομόνωση</label><label><input type="checkbox" name="commercial-extra-benefits" value="Θερμοπρόσοψη"> Θερμοπρόσοψη</label></div></div>
+						</div>
+						</div>
+						<div id="basic-fields-land" hidden>
+						<div class="property-form-grid property-form-grid--four">
+						<div class="form-field"><label for="land-buildable-sqm">Τετραγωνικά δόμησης</label><input id="land-buildable-sqm" type="text" readonly></div>
+						<div class="form-field"><label for="land-building-coefficient">Συντελεστής δόμησης</label><input id="land-building-coefficient" type="text" inputmode="decimal" placeholder="π.χ. 0.8"></div>
+						<div class="form-field"><label for="land-remaining-build">Υπόλοιπο δόμησης</label><input id="land-remaining-build" type="text" inputmode="decimal"></div>
+						<div class="form-field"><label for="land-coverage-coefficient">Συντελεστής κάλυψης</label><input id="land-coverage-coefficient" type="text" inputmode="decimal"></div>
+						<div class="form-field"><label for="land-height-coefficient">Συντελεστής ύψους</label><input id="land-height-coefficient" type="text" inputmode="decimal"></div>
+						<div class="form-field"><label for="land-frontage-length">Μήκος πρόσοψης</label><input id="land-frontage-length" type="text" inputmode="decimal"></div>
+						<div class="form-field"><label for="land-access-from">Πρόσβαση από</label><select id="land-access-from" data-options="accessFrom"></select></div>
+						<div class="form-field"><label for="land-has-building">Περιέχει κτίσμα</label><select id="land-has-building" data-options="detailsYesNo"></select></div>
+						<div class="form-field"><label for="land-view">Θέα</label><select id="land-view" data-options="views"></select></div>
+						<div class="form-field"><label for="land-orientation">Προσανατολισμός</label><select id="land-orientation" data-options="orientations"></select></div>
+						<div class="form-field multi-select-field" data-multiselect><span class="form-label" id="land-placement-label">Χωροθέτηση</span><button class="multi-select-trigger" type="button" aria-expanded="false" aria-controls="land-placement-panel" aria-labelledby="land-placement-label"><span class="multi-select-summary">Επιλογή</span><span class="multi-select-chevron" aria-hidden="true"></span></button><div class="multi-select-panel" id="land-placement-panel" hidden><label><input type="checkbox" name="land-placement" value="Γωνιακό"> Γωνιακό</label><label><input type="checkbox" name="land-placement" value="Πρόσοψης"> Πρόσοψης</label><label><input type="checkbox" name="land-placement" value="Εσωτερικό"> Εσωτερικό</label><label><input type="checkbox" name="land-placement" value="Πλαϊνό"> Πλαϊνό</label><label><input type="checkbox" name="land-placement" value="Διαμπερές"> Διαμπερές</label><label><input type="checkbox" name="land-placement" value="Φωτεινό"> Φωτεινό</label><label><input type="checkbox" name="land-placement" value="Τριών Όψεων"> Τριών Όψεων</label><label><input type="checkbox" name="land-placement" value="Τεσσάρων Όψεων"> Τεσσάρων Όψεων</label></div></div>
+						<div class="form-field"><label for="land-antiparochi">Αντιπαροχή</label><select id="land-antiparochi" data-options="detailsYesNo"></select></div>
+						<div class="form-field"><label for="land-agricultural-use">Κατάλληλο για αγροτική χρήση</label><select id="land-agricultural-use" data-options="detailsYesNo"></select></div>
+						<div class="form-field"><label for="land-building-permit">Οικοδομική Άδεια</label><select id="land-building-permit" data-options="yesNo"></select></div>
+						<div class="form-field"><label for="land-zone">Ζώνη</label><select id="land-zone" data-options="zone"></select></div>
+						<div class="form-field"><label for="land-slope">Κλίση</label><select id="land-slope" data-options="slopes"></select></div>
+						<div class="form-field"><label for="land-is-frontage">Πρόσοψης</label><select id="land-is-frontage" data-options="detailsYesNo"></select></div>
+						<div class="form-field"><label for="land-residential-area">Οικιστική περιοχή</label><select id="land-residential-area" data-options="detailsYesNo"></select></div>
+						<div class="form-field"><label for="land-investment">Επενδυτικό</label><select id="land-investment" data-options="investment"></select></div>
+						<div class="form-field"><label for="land-within-city-plan">Εντός σχεδίου πόλεως</label><select id="land-within-city-plan" data-options="detailsYesNo"></select></div>
+						<div class="form-field"><label for="land-distance-sea">Απόσταση από θάλασσα</label><div class="input-with-unit"><input id="land-distance-sea" type="text" inputmode="decimal" placeholder="π.χ. 0.5"><span>km</span></div></div>
+						<div class="form-field"><label for="land-distance-city">Απόσταση από πόλη</label><div class="input-with-unit"><input id="land-distance-city" type="text" inputmode="decimal" placeholder="π.χ. 1"><span>km</span></div></div>
+						<div class="form-field"><label for="land-distance-village">Απόσταση από χωριό</label><div class="input-with-unit"><input id="land-distance-village" type="text" inputmode="decimal" placeholder="π.χ. 2.5"><span>km</span></div></div>
+						<div class="form-field"><label for="land-distance-airport">Απόσταση από αεροδρόμιο</label><div class="input-with-unit"><input id="land-distance-airport" type="text" inputmode="decimal" placeholder="π.χ. 5"><span>km</span></div></div>
+						<div class="form-field"><label for="land-nearby">Κοντά σε</label><input id="land-nearby" type="text"></div>
+						</div>
+						<div class="tab-navigation tab-navigation--end" id="land-next-navigation"><button class="primary-button" id="land-next-step" type="button">Επόμενο →</button></div>
+						</div>
+						<div class="tab-navigation tab-navigation--end" id="basic-tab-navigation"><button class="primary-button" id="next-to-additional" type="button">Επόμενο →</button></div>
+					</div>
+
+					<div class="tab-pane" data-tab-pane="additional" hidden>
+						<section class="features-section" aria-labelledby="features-title">
+							<h2 id="features-title">Χαρακτηριστικά ακινήτου</h2>
+							<div class="dual-list">
+								<div class="feature-list-column"><label for="available-features">Διαθέσιμα χαρακτηριστικά</label><select id="available-features" multiple size="12" aria-label="Διαθέσιμα χαρακτηριστικά"></select></div>
+								<div class="dual-list-actions" aria-label="Μεταφορά χαρακτηριστικών"><button id="add-feature" type="button" aria-label="Προσθήκη επιλεγμένων χαρακτηριστικών">→</button><button id="remove-feature" type="button" aria-label="Αφαίρεση επιλεγμένων χαρακτηριστικών">←</button></div>
+								<div class="feature-list-column"><label for="included-features">Συμπεριλαμβάνονται</label><select id="included-features" multiple size="12" aria-label="Συμπεριλαμβανόμενα χαρακτηριστικά"></select></div>
+							</div>
+							<p class="dual-list-help">Χρησιμοποιήστε Ctrl (ή Cmd) για επιλογή περισσότερων χαρακτηριστικών.</p>
+							<div class="tab-navigation" id="additional-tab-navigation"><button class="secondary-button" id="previous-to-basic" type="button">Προηγούμενο</button><button class="primary-button" id="next-to-details" type="button">Επόμενο</button></div>
+						</section>
+					</div>
+
+					<div class="tab-pane" data-tab-pane="details" hidden>
+						<div class="property-form-grid property-form-grid--four details-grid">
+							<div class="form-field" id="details-commercial-levels" hidden><label for="commercial-levels">Επίπεδα</label><select id="commercial-levels" data-options="numbers1to20"></select></div>
+							<div class="form-field"><label for="building-floors">Αριθμός ορόφων στο κτίριο</label><select id="building-floors" data-options="buildingFloors"></select></div>
+							<div class="form-field"><label for="furnished">Επιπλωμένο</label><select id="furnished" data-options="furnished"></select></div>
+							<div class="form-field"><label for="electrical-appliances">Ηλεκτρικές συσκευές</label><select id="electrical-appliances" data-options="detailsYesNo"></select></div>
+							<div class="form-field appliance-selector" id="appliance-selector"><label for="appliance-input">Έπιπλα / Ηλεκτρικές Συσκευές</label><div class="appliance-control" id="appliance-control"><div class="appliance-tags" id="appliance-tags"></div><input id="appliance-input" type="text" autocomplete="off" placeholder="Επιλέξτε στοιχεία"></div><div class="appliance-suggestions" id="appliance-suggestions" role="listbox" hidden></div></div>
+							<div class="form-field"><label for="pool">Πισίνα</label><select id="pool" data-options="pool"></select></div>
+							<div class="form-field"><label for="accessible">Πρόσβαση ΑΜΕΑ</label><select id="accessible" data-options="detailsYesNo"></select></div>
+							<div class="form-field"><label for="frontage-length">Μήκος πρόσοψης</label><input id="frontage-length" type="number" min="0" step="0.01"></div>
+							<div class="form-field"><label for="distance-sea">Απόσταση από θάλασσα</label><div class="input-with-unit"><input id="distance-sea" type="text" inputmode="decimal" placeholder="π.χ. 0.5"><span>km</span></div></div>
+							<div class="form-field"><label for="distance-city">Απόσταση από πόλη</label><div class="input-with-unit"><input id="distance-city" type="text" inputmode="decimal" placeholder="π.χ. 1"><span>km</span></div></div>
+							<div class="form-field"><label for="distance-village">Απόσταση από χωριό</label><div class="input-with-unit"><input id="distance-village" type="text" inputmode="decimal" placeholder="π.χ. 2.5"><span>km</span></div></div>
+							<div class="form-field"><label for="distance-airport">Απόσταση από αεροδρόμιο</label><div class="input-with-unit"><input id="distance-airport" type="text" inputmode="decimal" placeholder="π.χ. 5"><span>km</span></div></div>
+							<div class="form-field"><label for="nearby">Κοντά σε</label><input id="nearby" type="text"></div>
+							<div class="form-field"><label for="access-from">Πρόσβαση από</label><select id="access-from" data-options="accessFrom"></select></div>
+							<div class="form-field"><label for="plot-area">Εμβαδόν οικοπέδου</label><input id="plot-area" type="number" min="0" step="0.01"></div>
+							<div class="form-field"><label for="balcony-area">Εμβαδόν μπαλκονιών</label><input id="balcony-area" type="number" min="0" step="0.01"></div>
+							<div class="form-field"><label for="zone">Ζώνη</label><select id="zone" data-options="zone"></select></div>
+							<div class="form-field" id="details-housing-short-term"><label for="short-term-rental">Βραχυχρόνια Μίσθωση</label><select id="short-term-rental" data-options="detailsYesNo"></select></div>
+							<div class="form-field" id="details-commercial-notes" hidden><label for="commercial-notes">Σημειώσεις</label><textarea id="commercial-notes"></textarea></div>
+						</div>
+						<div class="tab-navigation" id="details-tab-navigation"><button class="secondary-button" id="previous-to-additional" type="button">Προηγούμενο</button><button class="primary-button" id="complete-property" type="button">Επόμενο →</button></div>
+					</div>
+				</section>
+
+				<section class="property-form-card" id="location-section" aria-labelledby="location-section-title" hidden>
+					<div class="section-heading"><h2 id="location-section-title">Τοποθεσία ακινήτου</h2></div>
+					<div class="location-layout">
+						<div class="location-fields">
+							<div class="form-field"><label for="location-region">Περιοχή</label><select id="location-region" data-options="locationRegions"></select></div>
+							<div class="form-field"><label for="location-subregion">Υποπεριοχή</label><select id="location-subregion" data-options="locationSubregions"></select></div>
+							<div class="form-field"><label for="location-neighborhood">Γειτονιά</label><select id="location-neighborhood" data-options="locationNeighborhoods"></select></div>
+							<div class="form-field"><label for="location-postal-code">Ταχυδρομικός Κώδικας</label><input id="location-postal-code" type="text" inputmode="numeric" placeholder="Πληκτρολογήστε τον ΤΚ"></div>
+							<div class="form-field"><label for="location-display-el">Εμφανιζόμενη διεύθυνση <span class="location-lang-flag" aria-hidden="true">🇬🇷</span></label><input id="location-display-el" type="text" placeholder="Πληκτρολογήστε την εμφανιζόμενη διεύθυνση στα ελληνικά"></div>
+							<div class="form-field"><label for="location-display-en">Εμφανιζόμενη διεύθυνση <span class="location-lang-flag" aria-hidden="true">🇬🇧</span></label><input id="location-display-en" type="text" placeholder="Πληκτρολογήστε την εμφανιζόμενη διεύθυνση στα αγγλικά"></div>
+							<div class="form-field"><label for="location-show-address">Εμφάνιση διεύθυνσης</label><select id="location-show-address" data-options="detailsYesNo" data-default="Όχι"></select></div>
+							<div class="form-field"><label for="location-map-accuracy">Ακρίβεια θέσης στο χάρτη</label><select id="location-map-accuracy" data-options="mapAccuracy" data-default="Χωρίς εμφάνιση"></select></div>
+							<div class="form-field">
+								<span class="form-label">Αναζήτηση στο Google Maps</span>
+								<div class="location-maps-actions">
+									<button class="secondary-button" id="open-google-maps-coords" type="button">Με συντεταγμένες</button>
+									<button class="secondary-button" id="open-google-maps-address" type="button">Με εμφανιζόμενη διεύθυνση</button>
+								</div>
+							</div>
+						</div>
+						<div class="location-map-column">
+							<div class="form-field location-address-field"><label for="location-actual-address">Πραγματική διεύθυνση ακινήτου</label>
+								<div class="location-address-search">
+									<input id="location-actual-address" type="text" placeholder="π.χ. Σακελλαρίου 14" autocomplete="off">
+									<div class="location-address-suggestions" id="location-address-suggestions" role="listbox" hidden></div>
+								</div>
+								<p class="location-geocode-error" id="location-geocode-error" role="alert" hidden>Δεν βρέθηκε η διεύθυνση. Η προηγούμενη θέση διατηρήθηκε.</p>
+							</div>
+							<div id="location-map" class="location-map" role="application" aria-label="Χάρτης τοποθεσίας"></div>
+							<div class="location-coords">
+								<input id="location-lat" type="text" inputmode="decimal" value="39.6650" aria-label="Γεωγραφικό πλάτος">
+								<input id="location-lng" type="text" inputmode="decimal" value="20.8537" aria-label="Γεωγραφικό μήκος">
+							</div>
+						</div>
+					</div>
+					<div class="tab-navigation" id="location-tab-navigation">
+						<button class="secondary-button" id="previous-from-location" type="button">Προηγούμενο</button>
+						<button class="primary-button" id="location-next-step" type="button">Επόμενο βήμα</button>
+					</div>
+					<p class="completion-message" id="location-next-message" role="status" hidden>Το επόμενο κοινό βήμα θα προστεθεί σύντομα.</p>
+				</section>
+			</form>
+		</main>
+	</div>
+
+	<div class="modal-backdrop" id="contact-modal" hidden>
+		<section class="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+			<div class="modal-heading"><h2 id="contact-modal-title">Νέα επαφή</h2><button type="button" class="modal-close" aria-label="Κλείσιμο">×</button></div>
+			<p>Τα στοιχεία θα χρησιμοποιηθούν μόνο ως προσωρινό UI σε αυτή τη φάση.</p>
+			<div class="contact-form-fields"><div class="form-field"><label for="contact-name">Ονοματεπώνυμο</label><input id="contact-name" type="text"></div><div class="form-field"><label for="contact-phone">Τηλέφωνο</label><input id="contact-phone" type="tel"></div><div class="form-field"><label for="contact-email">Email</label><input id="contact-email" type="email"></div></div>
+			<div class="modal-actions"><button type="button" class="secondary-button modal-close">Ακύρωση</button><button type="button" class="primary-button modal-close">Δημιουργία επαφής</button></div>
+		</section>
+	</div>
+
+	<footer class="footer"><p>© 2026 EstateDesk</p></footer>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<script src="sidebar.js"></script>
+	<script src="new-property.js"></script>
+</body>
+</html>

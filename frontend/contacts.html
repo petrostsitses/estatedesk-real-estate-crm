@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Επαφές | EstateDesk</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="app app-properties">
+		<header class="topbar">
+			<div class="topbar-brand">
+				<img class="brand-mark" src="images/estatedesk-logo.png" alt="EstateDesk logo">
+				<span class="brand-name">EstateDesk</span>
+			</div>
+
+			<form class="topbar-search" action="#" method="get" onsubmit="return false;">
+				<input type="search" placeholder="Αναζήτηση ακινήτου..." aria-label="Αναζήτηση ακινήτου">
+				<button type="submit">Εύρεση</button>
+			</form>
+
+			<div class="topbar-user">
+				<span class="user-label">Portfolio Demo</span>
+			</div>
+		</header>
+
+		<aside class="sidebar">
+			<p class="sidebar-title">Κύριο Μενού</p>
+			<nav class="sidebar-nav">
+				<a href="index.html" class="nav-item">Αρχική</a>
+
+				<div class="nav-group">
+					<button type="button" class="nav-item nav-toggle" aria-expanded="false" aria-controls="properties-submenu">
+						<span class="nav-toggle-label">Ακίνητα</span>
+						<span class="nav-chevron" aria-hidden="true"></span>
+					</button>
+					<div id="properties-submenu" class="nav-submenu" hidden>
+						<a href="new-property.html" class="nav-subitem">Νέο Ακίνητο</a>
+						<a href="properties.html" class="nav-subitem">Όλα τα Ακίνητα</a>
+						<a href="advanced-search.html" class="nav-subitem">Σύνθετη Αναζήτηση</a>
+						<a href="#" class="nav-subitem">Αναζήτηση σε Χάρτη</a>
+						<a href="#" class="nav-subitem">Ιστορικό αλλαγών</a>
+					</div>
+				</div>
+
+				<a href="contacts.html" class="nav-item active">Επαφές</a>
+				<a href="#" class="nav-item">Σχετικά</a>
+			</nav>
+		</aside>
+
+		<main class="main">
+			<section class="page-header">
+				<p class="breadcrumb">CRM / Επαφές</p>
+				<h1>Επαφές</h1>
+				<p class="page-subtitle">Πελάτες και επαφές του μεσιτικού γραφείου.</p>
+			</section>
+
+			<section class="properties-section">
+				<div class="section-heading">
+					<h2>Όλες οι επαφές</h2>
+					<p>Η λίστα φορτώνεται από το API.</p>
+					<button class="primary-button" id="new-contact-button" type="button">+ Νέα επαφή</button>
+				</div>
+
+				<section class="property-form-card" id="contact-form-section" hidden>
+					<div class="section-heading">
+						<h2 id="contact-form-title">Νέα επαφή</h2>
+					</div>
+					<form class="property-form" id="contact-form" novalidate>
+						<div class="property-form-grid property-form-grid--three">
+							<div class="form-field">
+								<label for="contact-first-name">Όνομα *</label>
+								<input id="contact-first-name" type="text" required>
+							</div>
+							<div class="form-field">
+								<label for="contact-last-name">Επώνυμο *</label>
+								<input id="contact-last-name" type="text" required>
+							</div>
+							<div class="form-field">
+								<label for="contact-phone">Τηλέφωνο</label>
+								<input id="contact-phone" type="tel">
+							</div>
+							<div class="form-field">
+								<label for="contact-email">Email</label>
+								<input id="contact-email" type="email">
+							</div>
+							<div class="form-field">
+								<label for="contact-type">Τύπος επαφής</label>
+								<select id="contact-type">
+									<option value="">Επιλογή</option>
+									<option value="Αγοραστής">Αγοραστής</option>
+									<option value="Πωλητής">Πωλητής</option>
+									<option value="Ενοικιαστής">Ενοικιαστής</option>
+									<option value="Εκμισθωτής">Εκμισθωτής</option>
+									<option value="Άλλο">Άλλο</option>
+								</select>
+							</div>
+							<div class="form-field">
+								<label for="contact-notes">Σημειώσεις</label>
+								<textarea id="contact-notes"></textarea>
+							</div>
+						</div>
+						<p class="placeholder-text" id="contact-form-message" hidden></p>
+						<div class="modal-actions">
+							<button class="secondary-button" id="cancel-contact-button" type="button">Ακύρωση</button>
+							<button class="primary-button" id="save-contact-button" type="submit">Αποθήκευση</button>
+						</div>
+					</form>
+				</section>
+
+				<section class="property-form-card" aria-labelledby="contact-search-title">
+					<div class="section-heading">
+						<h2 id="contact-search-title">Αναζήτηση επαφής</h2>
+					</div>
+					<form class="property-form" id="contact-search-form" novalidate>
+						<div class="form-field">
+							<label for="contact-search">Όνομα, επώνυμο, τηλέφωνο ή email</label>
+							<input id="contact-search" type="text" autocomplete="off">
+						</div>
+						<div class="modal-actions">
+							<button class="secondary-button" id="contact-search-clear" type="button">Καθαρισμός</button>
+							<button class="primary-button" type="submit">Αναζήτηση</button>
+						</div>
+					</form>
+				</section>
+
+				<div id="contacts-container" class="properties-grid">
+					<p class="placeholder-text">Φόρτωση επαφών...</p>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<footer class="footer">
+		<p>© 2026 EstateDesk</p>
+	</footer>
+
+	<script src="sidebar.js"></script>
+	<script src="contacts.js"></script>
+</body>
+</html>

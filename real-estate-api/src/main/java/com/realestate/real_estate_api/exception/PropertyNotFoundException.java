@@ -1,0 +1,8 @@
+package com.realestate.real_estate_api.exception;
+
+public class PropertyNotFoundException extends RuntimeException {
+
+	public PropertyNotFoundException(String message) {
+		super(message);
+	}
+}

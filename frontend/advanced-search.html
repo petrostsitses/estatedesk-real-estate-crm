@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Σύνθετη Αναζήτηση | EstateDesk</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="app app-properties">
+		<header class="topbar">
+			<div class="topbar-brand">
+				<img class="brand-mark" src="images/estatedesk-logo.png" alt="EstateDesk logo">
+				<span class="brand-name">EstateDesk</span>
+			</div>
+
+			<form class="topbar-search" action="#" method="get" onsubmit="return false;">
+				<input type="search" placeholder="Αναζήτηση ακινήτου..." aria-label="Αναζήτηση ακινήτου">
+				<button type="submit">Εύρεση</button>
+			</form>
+
+			<div class="topbar-user">
+				<span class="user-label">Portfolio Demo</span>
+			</div>
+		</header>
+
+		<aside class="sidebar">
+			<p class="sidebar-title">Κύριο Μενού</p>
+			<nav class="sidebar-nav">
+				<a href="index.html" class="nav-item">Αρχική</a>
+
+				<div class="nav-group open">
+					<button type="button" class="nav-item nav-toggle is-active" aria-expanded="true" aria-controls="properties-submenu">
+						<span class="nav-toggle-label">Ακίνητα</span>
+						<span class="nav-chevron" aria-hidden="true"></span>
+					</button>
+					<div id="properties-submenu" class="nav-submenu">
+						<a href="new-property.html" class="nav-subitem">Νέο Ακίνητο</a>
+						<a href="properties.html" class="nav-subitem">Όλα τα Ακίνητα</a>
+						<a href="advanced-search.html" class="nav-subitem active">Σύνθετη Αναζήτηση</a>
+						<a href="#" class="nav-subitem">Αναζήτηση σε Χάρτη</a>
+						<a href="#" class="nav-subitem">Ιστορικό αλλαγών</a>
+					</div>
+				</div>
+
+				<a href="contacts.html" class="nav-item">Επαφές</a>
+				<a href="#" class="nav-item">Σχετικά</a>
+			</nav>
+		</aside>
+
+		<main class="main">
+			<section class="page-header">
+				<p class="breadcrumb">CRM / Ακίνητα / Σύνθετη Αναζήτηση</p>
+				<h1>Σύνθετη Αναζήτηση</h1>
+				<p class="page-subtitle">Φιλτράρετε τα ακίνητα του γραφείου με πολλαπλά κριτήρια.</p>
+			</section>
+
+			<section class="properties-section">
+				<section class="property-form-card" aria-labelledby="advanced-search-title">
+					<div class="section-heading">
+						<h2 id="advanced-search-title">Κριτήρια αναζήτησης</h2>
+						<p>Συμπληρώστε μόνο τα φίλτρα που σας ενδιαφέρουν. Τα κενά πεδία αγνοούνται.</p>
+					</div>
+					<form class="property-form" id="advanced-search-form" novalidate>
+						<div class="property-form-grid property-form-grid--three">
+							<div class="form-field">
+								<label for="search-transaction">Συναλλαγή</label>
+								<select id="search-transaction">
+									<option value="">Όλες</option>
+									<option value="Πώληση">Πώληση</option>
+									<option value="Ενοικίαση">Ενοικίαση</option>
+								</select>
+							</div>
+							<div class="form-field">
+								<label for="search-category">Κατηγορία Ακινήτου</label>
+								<select id="search-category">
+									<option value="">Όλες</option>
+									<option value="Κατοικία">Κατοικία</option>
+									<option value="Επαγγελματική στέγη">Επαγγελματικό</option>
+									<option value="Γη">Γη / Οικόπεδο</option>
+								</select>
+							</div>
+							<div class="form-field">
+								<label for="search-subcategory">Υποκατηγορία</label>
+								<select id="search-subcategory" disabled></select>
+							</div>
+							<div class="form-field">
+								<label for="search-location">Τοποθεσία</label>
+								<input id="search-location" type="text" autocomplete="off">
+							</div>
+							<div class="form-field">
+								<label for="search-min-price">Ελάχιστη τιμή</label>
+								<input id="search-min-price" type="text" inputmode="decimal">
+							</div>
+							<div class="form-field">
+								<label for="search-max-price">Μέγιστη τιμή</label>
+								<input id="search-max-price" type="text" inputmode="decimal">
+							</div>
+							<div class="form-field">
+								<label for="search-min-sqm">Ελάχιστα τ.μ.</label>
+								<input id="search-min-sqm" type="text" inputmode="decimal">
+							</div>
+							<div class="form-field">
+								<label for="search-max-sqm">Μέγιστα τ.μ.</label>
+								<input id="search-max-sqm" type="text" inputmode="decimal">
+							</div>
+						</div>
+
+						<div id="housing-filters" hidden>
+						<div class="property-form-grid property-form-grid--three">
+							<div class="form-field">
+								<label for="search-bedrooms">Υπνοδωμάτια</label>
+								<input id="search-bedrooms" type="text" inputmode="numeric">
+							</div>
+							<div class="form-field">
+								<label for="search-bathrooms">Μπάνια</label>
+								<input id="search-bathrooms" type="text" inputmode="numeric">
+							</div>
+							<div class="form-field">
+								<label for="search-floor">Όροφος</label>
+								<select id="search-floor"></select>
+							</div>
+							<div class="form-field">
+								<label for="search-furnished">Επιπλωμένο</label>
+								<select id="search-furnished">
+									<option value="">Επιλογή</option>
+									<option value="true">Ναι</option>
+									<option value="false">Όχι</option>
+								</select>
+							</div>
+							<div class="form-field">
+								<label for="search-parking">Parking</label>
+								<select id="search-parking">
+									<option value="">Επιλογή</option>
+									<option value="true">Ναι</option>
+									<option value="false">Όχι</option>
+								</select>
+							</div>
+						</div>
+						</div>
+
+						<div id="land-filters" hidden>
+						<div class="property-form-grid property-form-grid--three">
+							<div class="form-field">
+								<label for="search-min-plot">Ελάχιστο εμβαδόν οικοπέδου</label>
+								<input id="search-min-plot" type="text" inputmode="decimal">
+							</div>
+							<div class="form-field">
+								<label for="search-max-plot">Μέγιστο εμβαδόν οικοπέδου</label>
+								<input id="search-max-plot" type="text" inputmode="decimal">
+							</div>
+							<div class="form-field">
+								<label for="search-orientation">Προσανατολισμός</label>
+								<select id="search-orientation"></select>
+							</div>
+							<div class="form-field">
+								<label for="search-view">Θέα</label>
+								<select id="search-view"></select>
+							</div>
+						</div>
+						</div>
+
+						<div id="commercial-filters" hidden>
+						<div class="property-form-grid property-form-grid--three">
+							<div class="form-field">
+								<label for="search-commercial-floor">Όροφος</label>
+								<select id="search-commercial-floor"></select>
+							</div>
+							<div class="form-field">
+								<label for="search-commercial-bathrooms">Μπάνια</label>
+								<input id="search-commercial-bathrooms" type="text" inputmode="numeric">
+							</div>
+							<div class="form-field">
+								<label for="search-commercial-parking">Parking</label>
+								<select id="search-commercial-parking">
+									<option value="">Επιλογή</option>
+									<option value="true">Ναι</option>
+									<option value="false">Όχι</option>
+								</select>
+							</div>
+							<div class="form-field">
+								<label for="search-storage">Αποθήκη</label>
+								<select id="search-storage">
+									<option value="">Επιλογή</option>
+									<option value="true">Ναι</option>
+									<option value="false">Όχι</option>
+								</select>
+							</div>
+							<div class="form-field">
+								<label for="search-renovated">Ανακαινισμένο</label>
+								<select id="search-renovated">
+									<option value="">Επιλογή</option>
+									<option value="true">Ναι</option>
+									<option value="false">Όχι</option>
+								</select>
+							</div>
+						</div>
+						</div>
+
+						<div class="modal-actions">
+							<button class="secondary-button" id="advanced-search-clear" type="button">Καθαρισμός</button>
+							<button class="primary-button" type="submit">Αναζήτηση</button>
+						</div>
+					</form>
+				</section>
+
+				<div class="section-heading">
+					<h2>Αποτελέσματα</h2>
+					<p>Τα αποτελέσματα προέρχονται από το κοινό inventory ακινήτων.</p>
+				</div>
+				<div id="search-results" class="properties-grid">
+					<p class="placeholder-text">Φόρτωση ακινήτων...</p>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<footer class="footer">
+		<p>© 2026 EstateDesk</p>
+	</footer>
+
+	<script src="sidebar.js"></script>
+	<script src="advanced-search.js"></script>
+</body>
+</html>

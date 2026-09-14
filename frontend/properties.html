@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ακίνητα | EstateDesk</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="app app-properties">
+		<header class="topbar">
+			<div class="topbar-brand">
+				<img class="brand-mark" src="images/estatedesk-logo.png" alt="EstateDesk logo">
+				<span class="brand-name">EstateDesk</span>
+			</div>
+
+			<form class="topbar-search" action="#" method="get" onsubmit="return false;">
+				<input type="search" placeholder="Αναζήτηση ακινήτου..." aria-label="Αναζήτηση ακινήτου">
+				<button type="submit">Εύρεση</button>
+			</form>
+
+			<div class="topbar-user">
+				<span class="user-label">Portfolio Demo</span>
+			</div>
+		</header>
+
+		<aside class="sidebar">
+			<p class="sidebar-title">Κύριο Μενού</p>
+			<nav class="sidebar-nav">
+				<a href="index.html" class="nav-item">Αρχική</a>
+
+				<div class="nav-group open">
+					<button type="button" class="nav-item nav-toggle is-active" aria-expanded="true" aria-controls="properties-submenu">
+						<span class="nav-toggle-label">Ακίνητα</span>
+						<span class="nav-chevron" aria-hidden="true"></span>
+					</button>
+					<div id="properties-submenu" class="nav-submenu">
+						<a href="new-property.html" class="nav-subitem">Νέο Ακίνητο</a>
+						<a href="properties.html" class="nav-subitem active">Όλα τα Ακίνητα</a>
+						<a href="advanced-search.html" class="nav-subitem">Σύνθετη Αναζήτηση</a>
+						<a href="#" class="nav-subitem">Αναζήτηση σε Χάρτη</a>
+						<a href="#" class="nav-subitem">Ιστορικό αλλαγών</a>
+					</div>
+				</div>
+
+				<a href="contacts.html" class="nav-item">Επαφές</a>
+				<a href="#" class="nav-item">Σχετικά</a>
+			</nav>
+		</aside>
+
+		<main class="main">
+			<section class="page-header">
+				<p class="breadcrumb">CRM / Ακίνητα</p>
+				<h1>Ακίνητα</h1>
+				<p class="page-subtitle">Κοινό inventory ακινήτων του μεσιτικού γραφείου. Ορατά σε όλους τους agents.</p>
+			</section>
+
+			<section class="properties-section">
+				<div class="section-heading">
+					<h2>Όλα τα ακίνητα</h2>
+					<p>Η λίστα φορτώνεται από το API.</p>
+				</div>
+				<section class="property-form-card" aria-labelledby="property-id-search-title">
+					<div class="section-heading">
+						<h2 id="property-id-search-title">Αναζήτηση με ID</h2>
+					</div>
+					<form class="property-form" id="property-id-search-form" novalidate>
+						<div class="form-field">
+							<label for="property-id-search">ID ακινήτου</label>
+							<input id="property-id-search" type="text" inputmode="numeric" autocomplete="off">
+						</div>
+						<div class="modal-actions">
+							<button class="secondary-button" id="property-id-clear" type="button">Καθαρισμός</button>
+							<button class="primary-button" type="submit">Αναζήτηση</button>
+						</div>
+					</form>
+				</section>
+				<div id="properties-container" class="properties-table-wrap">
+					<p class="placeholder-text">Φόρτωση ακινήτων...</p>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<footer class="footer">
+		<p>© 2026 EstateDesk</p>
+	</footer>
+
+	<script src="sidebar.js"></script>
+	<script src="properties.js"></script>
+</body>
+</html>
