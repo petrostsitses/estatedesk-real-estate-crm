@@ -8,68 +8,66 @@ It helps a small agency manage a shared property inventory and contacts through 
 
 EstateDesk models the daily workflow of a brokerage office: create listings, inspect property details, update or remove records, search the inventory, and keep owner/contact information in one place.
 
-The goal is to demonstrate practical backend skills (REST, JPA, PostgreSQL, validation, API docs) together with a usable CRM-style UI, without introducing extra frameworks on the frontend.
+The goal is to demonstrate practical backend skills (REST, JPA, PostgreSQL, validation, API documentation) together with a usable CRM-style UI, without introducing extra frameworks on the frontend.
 
 ## Features
 
-- Property CRUD (create, read, update, delete)
-- Property details page with type-aware fields (housing, land, commercial)
-- Property editing and deletion from the details view
-- Advanced search over the property inventory
-- Contacts CRUD
-- Contact search
-- Transaction type: sale / rent (`Πώληση` / `Ενοικίαση`)
-- REST API for properties and contacts
-- Swagger / OpenAPI documentation
+* Property CRUD (create, read, update, delete)
+* Property details page with type-aware fields (housing, land, commercial)
+* Property editing and deletion from the details view
+* Advanced search over the property inventory
+* Contacts CRUD
+* Contact search
+* Transaction type: sale / rent (`Πώληση` / `Ενοικίαση`)
+* REST API for properties and contacts
+* Swagger / OpenAPI documentation
 
 ## Tech Stack
 
-- Java 24
-- Spring Boot
-- Spring Web
-- Spring Data JPA / Hibernate
-- PostgreSQL
-- Maven Wrapper
-- Swagger / OpenAPI (springdoc)
-- HTML, CSS, Vanilla JavaScript
+* Java 24
+* Spring Boot
+* Spring Web
+* Spring Data JPA / Hibernate
+* PostgreSQL
+* Maven Wrapper
+* Swagger / OpenAPI (springdoc)
+* HTML, CSS, Vanilla JavaScript
 
 ## Project Structure
 
 ```text
-real-estate-api/          # workspace root
-├── frontend/             # static CRM UI
+real-estate-api/
+├── frontend/             # Static CRM UI
 ├── real-estate-api/      # Spring Boot backend
 └── README.md
 ```
 
-- `frontend/` — pages and scripts for the CRM (property list, details, new/edit property, advanced search, contacts). Talks to the API at `http://localhost:8080`.
-- `real-estate-api/src/main/java/...` — application entry point, controllers, services, repositories, entities, DTOs, and exception handling.
-- `real-estate-api/src/main/resources/` — `application.properties` and local profile configuration.
+* `frontend/` — pages and scripts for the CRM.
+* `real-estate-api/src/main/java/...` — controllers, services, repositories, entities, DTOs, and exception handling.
+* `real-estate-api/src/main/resources/` — application configuration.
 
 ## Backend Setup
 
 Requirements:
 
-- JDK 24
-- PostgreSQL listening on port `5432`
-- Database name: `real_estate_db`
-- Maven Wrapper (`mvnw` / `mvnw.cmd`) — no global Maven install required
+* JDK 24
+* PostgreSQL running on port `5432`
+* Database: `real_estate_db`
+* Maven Wrapper (`mvnw` / `mvnw.cmd`)
 
 The API runs on port **8080**.
 
-Hibernate is configured with `ddl-auto=update`, so the schema is created/updated on startup.
+Hibernate is configured with `ddl-auto=update`, so the database schema is created or updated automatically on startup.
 
 ## Database Configuration
 
-`application.properties` does not store the database password in plain text. It uses:
+The database password is not stored directly in the tracked configuration.
 
 ```properties
 spring.datasource.password=${DB_PASSWORD}
 ```
 
-For local development, the password is supplied by `application-local.properties`, which is listed in `.gitignore` and **must not** be committed.
-
-Do not put a real password in this README or in any tracked file.
+For local development, the password is supplied through `application-local.properties`, which is ignored by Git and must not be committed.
 
 ## How to Run Backend
 
@@ -79,74 +77,66 @@ From the backend folder:
 cd real-estate-api
 ```
 
-**Windows**
+### Windows
 
 ```bash
 .\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=local"
 ```
 
-**macOS / Linux**
+### macOS / Linux
 
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-The `local` profile loads `application-local.properties` so Spring can resolve `DB_PASSWORD` without exporting it in the shell.
+The API will be available at:
 
-Alternatively, set the `DB_PASSWORD` environment variable and start without the `local` profile.
-
-The API is ready when the log shows that `RealEstateApiApplication` has started. Base URL: `http://localhost:8080`.
+`http://localhost:8080`
 
 ## How to Run Frontend
 
-The frontend is static files (no Node build step).
+The frontend is made with HTML, CSS and Vanilla JavaScript and does not require a Node.js build step.
 
-1. Start the backend on port 8080.
-2. Serve the `frontend/` folder with Live Server, VS Code/Cursor Live Preview, or:
+1. Start the backend on port `8080`.
+2. Serve the `frontend/` folder using Live Server or another local HTTP server.
+3. Open the frontend in your browser.
 
-    ```bash
-    cd frontend
-    python -m http.server 5500
-    ```
-
-3. Open the UI in the browser (for example `http://localhost:5500`).
-
-The pages call `http://localhost:8080/api/...`. Keep the API running while you use the CRM.
+The frontend communicates with the backend through the REST API.
 
 ## API Documentation
 
 Swagger UI:
 
-[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+`http://localhost:8080/swagger-ui/index.html`
 
-OpenAPI JSON is available at `/v3/api-docs` when the backend is running.
+OpenAPI JSON:
 
-## Example API Endpoints
+`http://localhost:8080/v3/api-docs`
 
-**Properties**
+## API Endpoints
 
-| Method | Path |
-| ------ | ---- |
-| GET | `/api/properties` |
-| GET | `/api/properties/{id}` |
-| POST | `/api/properties` |
-| PUT | `/api/properties/{id}` |
+### Properties
+
+| Method | Endpoint               |
+| ------ | ---------------------- |
+| GET    | `/api/properties`      |
+| GET    | `/api/properties/{id}` |
+| POST   | `/api/properties`      |
+| PUT    | `/api/properties/{id}` |
 | DELETE | `/api/properties/{id}` |
 
-**Contacts**
+### Contacts
 
-| Method | Path |
-| ------ | ---- |
-| GET | `/api/contacts` |
-| POST | `/api/contacts` |
-| PUT | `/api/contacts/{id}` |
+| Method | Endpoint             |
+| ------ | -------------------- |
+| GET    | `/api/contacts`      |
+| POST   | `/api/contacts`      |
+| PUT    | `/api/contacts/{id}` |
 | DELETE | `/api/contacts/{id}` |
-
-Request and response bodies are JSON. Explore schemas and try requests in Swagger.
 
 ## Future Improvements
 
-- Authentication and authorization for agents
-- Property image upload
-- Map-based search
-- Deployment of API and frontend to a hosted environment
+* Authentication and authorization for agents
+* Property image upload
+* Map-based search
+* Deployment of the API and frontend to a hosted environment
